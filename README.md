@@ -1,6 +1,6 @@
 # Selectr
 
-This plugin aims to accomplish a seemingly simple task: make a select box that doesn't suck.
+Selectr is a jQuery plugin that aims to accomplish a seemingly simple task: make a select box that doesn't suck.
 
 It currently supports ctrl+click, search, color-coding, and selection limiting (multi-selects).
 
@@ -9,6 +9,8 @@ It is built using Bootstrap components, and is written in CoffeeScript and SCSS;
 Selectr was heavily inspired by [select2](https://github.com/ivaynberg/select2) and the label/assignee/milestone dropdowns in Github's issue tracker.
 
 The files you probably want live in the prod folder. Debug contains the compiled JS, source maps, and compiled styles. Src contains the original Coffeescript and SCSS files. 
+
+__[Click here to view demo](http://caseywebb.github.io/selectr)__
 
 ## Usage
 
@@ -57,9 +59,17 @@ Easy fix. Use the ASCII code, i.e. instead of ' use `&#39;` and instead of " use
     
 #### NOTE: Order of precedence
 
-HTML5 data attributes take precedence over the options object. This allows you to pass certain parameters that should apply to most/all selectr instances, and "fill in the blanks" or override those options with the `data-selectr-opts attribute`. See demo file for an example.
+HTML5 data attributes take precedence over the options object. This allows you to pass certain parameters that should apply to most/all selectr instances, and "fill in the blanks" or override those options with the `data-selectr-opts` attribute. See demo file for an example.
 
+### Compatiblity
 
+Requires jQuery 1.8.3+
+
+Tested in the following browsers:
+
+- Chrome
+- Firefox
+- IE 9+
 
 ### Contributing
 

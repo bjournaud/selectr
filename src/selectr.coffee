@@ -25,6 +25,8 @@ do ($, window) ->
       for opt in @opts
         selectedCount++ if opt.hasClass 'selected'
       $('.current-selection', @container).text(selectedCount if selectedCount > 0)
+      if selectedCount == 0
+        $('.panel-footer', @container).addClass('hidden')
         
       @MonitorSource()
       
@@ -81,6 +83,10 @@ do ($, window) ->
             
           currentSelectionCount = $('option:selected', this).length
           $('.current-selection', $(this).next()).text(if currentSelectionCount > 0 then currentSelectionCount else '')
+          if currentSelectionCount > 0 && $(this).prop('multiple')
+            $('.panel-footer', $(this).next()).removeClass('hidden')
+          else
+            $('.panel-footer', $(this).next()).addClass('hidden')
 
     # Static selectr methods
         
@@ -107,6 +113,7 @@ do ($, window) ->
            
       currentSelectionCount = $('option:selected', el).length
       $('.current-selection', $(opt).parents('.selectr')).text(if currentSelectionCount > 0 then currentSelectionCount else '')
+      $('.panel-footer', $(opt).parents('.selectr')).removeClass('hidden') if el.prop('multiple')
 
       if currentSelectionCount == $(el).data('selectr-opts').maxSelection
         $(opt).parents('.selectr').addClass('max-selection-reached')
@@ -125,6 +132,8 @@ do ($, window) ->
         
       currentSelectionCount = $('option:selected', el).length
       $('.current-selection', $(opt).parents('.selectr')).text(if currentSelectionCount > 0 then currentSelectionCount else '')
+      if currentSelectionCount == 0
+        $('.panel-footer', $(opt).parents('.selectr')).addClass('hidden');
 
       @TriggerChange(el)
 
@@ -135,6 +144,9 @@ do ($, window) ->
 
       # Click option
       $(document).on 'click', '.selectr .list-group-item', (e) ->
+        if e.originalEvent.detail && e.originalEvent.detail == 2
+          return
+
         el = $(this).parents('.selectr').prev()
         modifyCurrentSelection = (e.ctrlKey or e.metaKey) and el.prop 'multiple'
         
@@ -145,16 +157,19 @@ do ($, window) ->
         
         e.stopPropagation()
         e.preventDefault()
-        
-      # CTRL depressed
-      $(document).on 'keydown', (e) ->
-        $('.selectr .list-group').addClass 'ctrl-key' if e.ctrlKey
-        
-      $(document).on 'keyup', (e) ->
-        $('.selectr .list-group').removeClass 'ctrl-key' if not e.ctrlKey
+          
+        # CTRL depressed
+        $(document).on 'keydown', (e) ->
+          $('.selectr .list-group').addClass 'ctrl-key' if e.ctrlKey
+          
+        $(document).on 'keyup', (e) ->
+          $('.selectr .list-group').removeClass 'ctrl-key' if not e.ctrlKey
 
       # Click add/remove button
       $(document).on 'click', '.selectr .add-remove', (e) ->
+        if e.originalEvent.detail && e.originalEvent.detail == 2
+          return
+
         option = $(e.target).parents('.selectr .list-group-item')
         if option.hasClass 'selected'
           Selectr.DeselectOption option
@@ -198,6 +213,7 @@ do ($, window) ->
         Selectr.TriggerChange(el)
         
         $('.current-selection', $(this).parents('.selectr')).text('')
+        $('.panel-footer', $(this).parents('.selectr')).addClass('hidden')
 
         e.stopPropagation();
         e.preventDefault();
