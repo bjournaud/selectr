@@ -50,16 +50,18 @@ Ex.
 ### Options and defaults
 
 ```coffeescript
-title:                  'Select Options'
-noMatchingOptionsText:  'No options found'
-placeholder:            'Search'
-resetText:              'Clear All'
-width:                  '300px'
-maxListHeight:          '250px'
-tooltipBreakpoint:      25 # min length of option name to show tooltip on
-maxSelection:           Infinity
-panelStyle:				'default'
-alwaysShowFooter:		false
+title:                      'Select Options'
+noMatchingOptionsText:      'No options found'
+placeholder:                'Search'
+resetText:                  'Clear All'
+width:                      '300px'
+maxListHeight:              '250px'
+tooltipBreakpoint:          25 # min length of option name to show tooltip on
+maxSelection:               Infinity
+panelStyle:			        'default'
+alwaysShowFooter:	      	false
+itemTemplate(label,value):  label
+searchValue(option):        option.text()
 ```
 
 To pass options to selectr, you may use an HTML5 data-* attribute, or an options object passed to the initialization function.

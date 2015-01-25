@@ -13,6 +13,8 @@ do ($ = jQuery, window = @) ->
       maxSelection:           Infinity
       panelStyle:             'default'
       alwaysShowFooter:       false
+      itemTemplate:(label,value) -> label
+      searchValue:(opt) -> $(opt).text()
 
     constructor: (@source, @args) ->
       @args   = $.extend {}, @defaults, @args, @source.data('selectr-opts')
@@ -79,7 +81,7 @@ do ($ = jQuery, window = @) ->
           # insert name
           .append(
             $(document.createElement 'div')
-              .text     $(opt).text()
+              .html     @args.itemTemplate $(opt).text(), $(opt).val()
               .addClass 'option-name'
               .attr     title: if $(opt).text().length > @args.tooltipBreakpoint then $(opt).text() else ''
           )
@@ -140,6 +142,7 @@ do ($ = jQuery, window = @) ->
       deselect          = @deselectOption
       triggerChange     = @triggerChange
       updateFooter      = @updateFooter
+      searchValue       = @args.searchValue
 
       listItemHandler = (e) ->
         e.stopPropagation()
@@ -177,7 +180,7 @@ do ($ = jQuery, window = @) ->
         # show/hide options
         $('.list-group-item', selectrContainer).each (index, option) ->
 
-          unless $(option).text().match(escapedSearchTerm)
+          unless searchValue(option).match(escapedSearchTerm)
             $(option).addClass 'hidden'
 
           else
